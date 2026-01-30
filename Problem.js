@@ -3,16 +3,11 @@
 const mongoose = require('mongoose');
 
 const problemSchema = new mongoose.Schema({
-    title: { 
-        type: String, 
-        required: true, 
-        unique: true, // This is the Brick Wall!
-        trim: true    // Pro tip: removes accidental spaces like " Two Sum"
-    },
-    difficulty: String,
-    link: String,
-    timeTaken: Number,
-    dateAdded: { type: Date, default: Date.now }
+  problemId: { type: Number, required: true, unique: true }, // Add this!
+  title: { type: String, required: true },
+  difficulty: { type: String, required: true },
+  timeTaken: { type: Number },
+  date: { type: Date, default: Date.now }
 });
 
 // Export the "Worker" so script.js can use it

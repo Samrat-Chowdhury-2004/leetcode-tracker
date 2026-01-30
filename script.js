@@ -17,32 +17,23 @@ mongoose.connect(process.env.MONGO_URI)  //"Go look in the memory for that secre
 
 
   // 5. Create the "Entry Gate" to add new problems
-app.post('/add-problem', async function(req, res) {
-    try {
-        // Create a new document based on our Blueprint (Schema)
-        const newProblem = new Problem({
-            title: req.body.title,
-            difficulty: req.body.difficulty,
-            timeTaken: req.body.timeTaken,
-            link: req.body.link
-        });
+app.post("/add-problem", async (req, res) => {
+  const { problemId, title, difficulty, timeTaken } = req.body;
 
-        // Push the document to the Cloud Fridge and WAIT for it to finish
-        const savedProblem = await newProblem.save();
+  try {
+    const updatedProblem = await Problem.findOneAndUpdate(
+      { problemId: problemId }, // Search by unique LeetCode ID
+      { title, difficulty, timeTaken, date: new Date() }, // Update specific fields
+      { upsert: true, new: true, runValidators: true } // Create if missing, return new doc, validate
+    );
 
-        // Send back a success code (201) and the saved data
-        res.status(201).json({
-            message: "Problem saved successfully! ✅",
-            data: savedProblem
-        });
-    }
-    catch (err) {
-        // If something goes wrong, send an error code (500)
-        res.status(500).json({ 
-            message: "Error saving problem", 
-            error: err.message 
-        });
-    }
+    res.status(200).json({ 
+      message: "Success: Problem synced to Cloud Fridge! 🚀", 
+      data: updatedProblem 
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Database Error", error: error.message });
+  }
 });
 
 
