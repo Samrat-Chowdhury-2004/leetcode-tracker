@@ -1,3 +1,7 @@
-node_modules/
-.env
-new.env
+# Ignore backend-specific secrets and libraries
+Backend/node_modules/
+Backend/new.env
+Backend/.env
+
+# Ignore general OS junk
+.DS_Store

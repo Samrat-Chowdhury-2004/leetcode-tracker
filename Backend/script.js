@@ -8,6 +8,9 @@ const Problem = require('./Problem');  //blueprints at the top in the import sec
 const app = express(); // server is born
 app.use(express.json()); //server can read data
 
+const cors = require('cors'); // Add this
+app.use(cors());
+
 // 3. The actual connection attempt to the cloud
 mongoose.connect(process.env.MONGO_URI)  //"Go look in the memory for that secret key we loaded in Step 1."
   .then(() => console.log("✅ SUCCESS: Cloud Fridge is connected!"))  //This is a Promise. It says, "If the connection works, run this "
