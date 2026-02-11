@@ -76,10 +76,16 @@ app.put('/update-problem/:id', async function(req, res) {
 });
 
 // 8. The "Delete" Gate
-app.delete('/delete-problem/:id', async function(req, res) {
+app.delete('/delete-problem/:id', async (req, res) => {
     try {
-        await Problem.findByIdAndDelete(req.params.id);
-        res.status(200).json({ message: "Deleted from Cloud! 🗑️" });
+        // We use findOneAndDelete because we are searching by our custom problemId (9, 1, etc.)
+        const deleted = await Problem.findOneAndDelete({ problemId: req.params.id });
+
+        if (deleted) {
+            res.status(200).json({ message: "Success" });
+        } else {
+            res.status(404).json({ message: "Not found" });
+        }
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

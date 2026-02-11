@@ -67,3 +67,19 @@ td:last-child { border-right: 1px solid rgba(255,255,255,0.05); border-radius: 0
 .hard { background: rgba(239, 68, 68, 0.2); color: var(--hard); }
 
 tr:hover td { background: rgba(255,255,255,0.07); transition: 0.3s; cursor: pointer; }
+
+
+.delete-btn {
+    background: transparent;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #ef4444; /* Red color */
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.delete-btn:hover {
+    background: #ef4444;
+    color: white;
+}
